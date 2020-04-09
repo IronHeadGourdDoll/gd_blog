@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //配置资源文件 其中/css/**，/index可以任意访问，/select需要USER权限，/delete需要ADMIN权限
+        httpSecurity.headers().frameOptions().disable();
         httpSecurity
                 .csrf().disable()//屏蔽csrf，跨站请求伪造
                 .authorizeRequests()

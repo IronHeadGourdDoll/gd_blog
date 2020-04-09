@@ -19,7 +19,7 @@ public class BlogLiked implements Serializable {
     private static final long serialVersionUID = 4967004621141911451L;
 
     @Id
-    public long blogId;
+    public Long blogId;
     @Id
     public String username;
 }

@@ -23,4 +23,9 @@ public class TagServiceImpl implements TagService {
     public Tag findTagByTagId(int tagId) {
         return tagRepository.findByTagId(tagId);
     }
+
+    @Override
+    public Tag findTagByTagName(String tagName) {
+        return tagRepository.findByTagName(tagName);
+    }
 }

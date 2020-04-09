@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Followee implements Serializable {
     @Id
-    public String followeeId;
+    public Long followeeId;
     @Id
-    public String fanId;
+    public Long fanId;
 }

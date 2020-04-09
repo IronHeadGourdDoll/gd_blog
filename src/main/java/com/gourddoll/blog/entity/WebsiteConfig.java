@@ -15,5 +15,5 @@ import java.io.Serializable;
 public class WebsiteConfig implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long config_id;
+    public Long config_id;
 }

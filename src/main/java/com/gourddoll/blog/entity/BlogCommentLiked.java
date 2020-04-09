@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class BlogCommentLiked implements Serializable {
     @Id
-    public long comment_id;
+    public Long comment_id;
     @Id
     public String username;
 }

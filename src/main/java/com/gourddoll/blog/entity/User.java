@@ -17,11 +17,11 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long userId;
+    public Long userId;
     public String username;
     public String nickname;
     public String pwd;
-    public int sex;
+    public Integer sex;
     @Temporal(TemporalType.DATE)
     public Date birth;
     public String address;
@@ -40,6 +40,8 @@ public class User implements Serializable {
     public int likedTimes;
     public int dislikedTimes;
     public int grade;
+    public int blogNum;
+    public int commendTimes;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")},

@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int categoryId;
+    public Integer categoryId;
     public String categoryName;
+    public String description;
 }

@@ -15,5 +15,5 @@ import java.io.Serializable;
 public class Medal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long medalId;
+    public Long medalId;
 }

@@ -1,18 +1,21 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="common/common_head::commonHeader">
     <title>关于我</title>
 </head>
-
 <body>
 
     <div th:include="common/common_navigation :: commonNavigation"></div>
     <div class="container pt">
         <div class="row mt centered">
 
-            <div class="col-lg-4">
-                <p th:text="我的信息"></p>
+            <div class="col-lg-12">
+                <ul class="">
+                    <li>姓名：[[${session.user.username}]]</li>
+                    <li>地址：[[${session.user.address}]]</li>
+                    <li>学历：[[${session.user.education}]]</li>
+                </ul>
             </div>
         </div>
     </div>

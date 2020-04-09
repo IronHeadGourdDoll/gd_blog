@@ -48,4 +48,9 @@ public class UserController {
     public String error() {
         return "interceptor/401";
     }
+
+    @RequestMapping("/about")
+    public String about() {
+        return "about";
+    }
 }

@@ -16,5 +16,5 @@ import java.io.Serializable;
 public class BlogComment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long commentId;
+    public Long commentId;
 }

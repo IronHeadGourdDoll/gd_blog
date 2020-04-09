@@ -18,5 +18,5 @@ public class UserMedal implements Serializable {
     @Id
     public String username;
     @Id
-    public long medalId;
+    public Long medalId;
 }

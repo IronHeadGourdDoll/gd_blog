@@ -14,4 +14,5 @@ public interface TagRepository extends JpaRepository<Tag,Long>, JpaSpecification
     Tag findByTagId(int tagId);//通过id查找标签
 
 
+    Tag findByTagName(String tagName);
 }

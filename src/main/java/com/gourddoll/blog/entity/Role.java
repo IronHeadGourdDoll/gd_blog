@@ -16,7 +16,7 @@ import java.util.List;
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long roleId;
+    public Long roleId;
     public String roleName;
     public long isEnable;
     public String description;
@@ -25,7 +25,7 @@ public class Role implements Serializable {
     @JoinTable(name = "role_menu", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "menu_id")})
     private List<Menu> menuList;
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "username")})
-    private List<User> userList;
+//    @ManyToMany
+//    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "username")})
+//    private List<User> userList;
 }

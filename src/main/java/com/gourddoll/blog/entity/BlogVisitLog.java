@@ -15,5 +15,5 @@ import java.io.Serializable;
 public class BlogVisitLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long visitId;
+    public Long visitId;
 }
