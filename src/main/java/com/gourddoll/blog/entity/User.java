@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Table(name="user")
@@ -22,8 +21,7 @@ public class User implements Serializable {
     public String nickname;
     public String pwd;
     public Integer sex;
-    @Temporal(TemporalType.DATE)
-    public Date birth;
+    public String birth;
     public String address;
     public String education;
     public String career;

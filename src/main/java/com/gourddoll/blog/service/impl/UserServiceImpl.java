@@ -1,6 +1,5 @@
 package com.gourddoll.blog.service.impl;
 
-import com.gourddoll.blog.constants.Constants;
 import com.gourddoll.blog.entity.User;
 import com.gourddoll.blog.repository.UserRepository;
 import com.gourddoll.blog.service.UserService;
@@ -20,10 +19,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    int Yes= Constants.YES;
-    int NO=Constants.NO;
-
 
     @Override
     public User findByUsername(String username) {

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class MessageController {
@@ -23,7 +22,6 @@ public class MessageController {
     @GetMapping("/message")
     public String message(Model model, HttpServletRequest request, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         start = start<0?0:start;
-        HttpSession session= request.getSession();
         User user=userService.getUserBySession();
         String username=user.getUsername();
         Page<Message> messagePage=messageService.findMessageByUsername(username,start,size);

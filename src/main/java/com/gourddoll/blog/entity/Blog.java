@@ -2,20 +2,23 @@ package com.gourddoll.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Table(name="blog")
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Data
 public class Blog implements Serializable {
     private static final long serialVersionUID = 4967006908141911451L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//这样的话，save(xxx)后xxx就已经更新为已经保存的实体了,添加的xxx就有id了
     public Long blogId;
     public String title;
     public String author;
@@ -23,10 +26,8 @@ public class Blog implements Serializable {
     @Lob
     @Column(columnDefinition = "TEXT")
     public String content;
-    @Temporal(TemporalType.DATE)
-    public Date createTime;
-    @Temporal(TemporalType.DATE)
-    public Date updateTime;
+    public String createTime;
+    public String updateTime;
     public Integer commend;
     public Integer status;
     public String headerImg;

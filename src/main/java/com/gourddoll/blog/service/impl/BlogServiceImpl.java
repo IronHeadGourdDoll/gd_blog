@@ -7,6 +7,8 @@ import com.gourddoll.blog.repository.BlogRepository;
 import com.gourddoll.blog.service.BlogService;
 import com.gourddoll.blog.service.TagService;
 import com.gourddoll.blog.util.HtmlSpirit;
+import com.gourddoll.blog.util.TimeUtil;
+import com.gourddoll.blog.util.UpdateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -16,9 +18,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+* @Description:
+* @Author:  wuliang
+* @Date:  2020/4/23   21:22
+*/
 @Service
 public class BlogServiceImpl implements BlogService {
     @Autowired
@@ -26,19 +32,22 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private TagService tagService;
     int pageNumber=1;
-    int commend=Constants.YES;
     int status=Constants.YES;
-    int page=(pageNumber - 1) * Constants.defaultPageSize;//第一页的页码0
-    int size=Constants.defaultPageSize;//每页的数量
-    Pageable pageable;//通过创建时间数降序排列
+    //第一页的页码0
+    int page=(pageNumber - 1) * Constants.defaultPageSize;
+    //每页的数量
+    //通过创建时间数降序排列
+    Pageable pageable;
+
+
 
     //************************************************查找所有博客************************************************
     //
     @Override
     public List<Blog> findTopBlogList(int page, int size) {
-        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "grade");//通过阅读量降序排列
+        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "grade");
         Page<Blog> readTopBlogPage = blogRepository.findAllByStatus(status,pageable);
-        List<Blog> topBlogList = readTopBlogPage.getContent();//每一页博客的数量
+        List<Blog> topBlogList = readTopBlogPage.getContent();
         topBlogList.forEach(blog -> {
             String BlogSummary = HtmlSpirit.delHTMLTag(blog.getContent());
             blog.setSummary(BlogSummary.length() > 100 ? BlogSummary.substring(0, 100) : BlogSummary);
@@ -50,18 +59,18 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Cacheable(value = "blog", key = "#page")
     public List<Blog> findBlogList(int page, int size) {
-        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createTime");//通过创建时间数降序排列
+        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createTime");
         Page<Blog> newestBlogPage = blogRepository.findAllByStatus(Constants.YES, pageable);
-        List<Blog> newestBlogList = newestBlogPage.getContent();//每一页博客的数量
+        List<Blog> newestBlogList = newestBlogPage.getContent();
         return newestBlogList;
     }
 
     //查找阅读量高的博客
     @Override
     public List<Blog> findBlogReadTop(int page, int size) {
-        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "readTimes");//通过阅读量降序排列
+        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "readTimes");
         Page<Blog> readTopBlogPage = blogRepository.findAllByStatus(status,pageable);
-        List<Blog> readTopBlogList = readTopBlogPage.getContent();//每一页博客的数量
+        List<Blog> readTopBlogList = readTopBlogPage.getContent();
         return  readTopBlogList;
 
     }
@@ -69,7 +78,7 @@ public class BlogServiceImpl implements BlogService {
     //查找推荐博客
     @Override
     public Page<Blog> findCommendBlogList(int commend, int page , int size) {
-        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createTime");//通过创建时间数降序排列
+        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createTime");
         Page<Blog> commendBlogPage= blogRepository.findAllByCommendAndStatus(commend,status,pageable);
         return commendBlogPage;
     }
@@ -83,7 +92,7 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> findTopBlogListByUsername(int start, int size,String username) {
         pageable = PageRequest.of(start, size, Sort.Direction.DESC, "grade");
         Page<Blog> readTopBlogPage = blogRepository.findAllByStatusAndAuthor(status,pageable,username);
-        List<Blog> topBlogList = readTopBlogPage.getContent();//每一页博客的数量
+        List<Blog> topBlogList = readTopBlogPage.getContent();
         return  topBlogList;
     }
 
@@ -92,21 +101,21 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> findBlogListByUsername(int start, int size, String username) {
         pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");
         Page<Blog> blogByUsernamePage= blogRepository.findAllByStatusAndAuthor(status,pageable,username);
-        List<Blog> blogByUsernameList = blogByUsernamePage.getContent();//每一页博客的数量
+        List<Blog> blogByUsernameList = blogByUsernamePage.getContent();
         return blogByUsernameList;
     }
 
     @Override
     public List<Blog> findBlogReadTopByUsername(int start, int size, String username) {
-        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "readTop");//通过阅读量降序排列
+        pageable = PageRequest.of(page, size, Sort.Direction.DESC, "readTop");
         Page<Blog> readTopBlogPage = blogRepository.findAllByStatusAndAuthor(status,pageable,username);
-        List<Blog> readTopBlogList = readTopBlogPage.getContent();//每一页博客的数量
+        List<Blog> readTopBlogList = readTopBlogPage.getContent();
         return  readTopBlogList;
     }
 
     @Override
     public Page<Blog> findCommendBlogListByUsername(int commend, int start, int size, String username) {
-        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");//通过创建时间数降序排列
+        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");
         Page<Blog> commendBlogByUsernamePage= blogRepository.findAllByCommendAndStatusAndAuthor(commend,status,pageable,username);
         return commendBlogByUsernamePage;
     }
@@ -118,14 +127,16 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Page<Blog> findBlogByUsernameAndCategoryName(String username, String categoryName, int start, int size) {
-        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");//通过创建时间数降序排列
+        //通过创建时间数降序排列
+        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");
         Page<Blog> blogPage=blogRepository.findAllByAuthorAndCategoryName(username,categoryName,pageable);
         return blogPage;
     }
 
     @Override
     public Page<Blog> findBlogByUsername(String username, int start, int size) {
-        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");//通过创建时间数降序排列
+        //通过创建时间数降序排列
+        pageable = PageRequest.of(start, size, Sort.Direction.DESC, "createTime");
         Page<Blog> blogPage=blogRepository.findAllByAuthor(username,pageable);
         return blogPage;
     }
@@ -147,19 +158,31 @@ public class BlogServiceImpl implements BlogService {
             }
         }
         blog.setTagList(tagList);
-        //为null则是添加，初始化创建时间，否则不初始化
-        if (blog.getBlogId()==null) {
-            blog.setCreateTime(new Date());
-            blog.setHeaderImg("image");
-        }
-        blog.setStatus(1);
+        //截取summary
         if (blog.content.length()>20){
             summary=blog.content.substring(1,20);
         }else {
             summary=blog.content;
         }
         blog.setSummary(summary);
-        blog.setUpdateTime(new Date());
+        //直接申明与new的区别?
+        //TimeUtil timeUtil=new TimeUtil();通过类成员访问静态属性？
+        String nowTime= TimeUtil.getTimestamp();
+        //为null则是添加，初始化创建时间，否则不初始化
+        if (blog.getBlogId()==null) {
+            blog.setStatus(1);
+            blog.setCreateTime(nowTime);
+            blog.setUpdateTime(nowTime);
+        }else {
+            blog.setUpdateTime(nowTime);
+            Blog olderBlog=blogRepository.findAllByBlogId(blog.getBlogId());
+            System.out.println(blog.content);
+            //将前端传来的不为空参数(也即是要修改值)copy覆盖原始对象属性值，1覆盖2的对应字段
+            UpdateUtil.copyNullProperties(blog,olderBlog);
+            blog=olderBlog;
+            System.out.println(blog.content);
+        }
+        //不会自动忽略null的字段，自定义工具类，将null的字段用原来的值覆盖
         blogRepository.save(blog);
     }
 

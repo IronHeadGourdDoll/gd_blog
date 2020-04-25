@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-//dev to dev test
 @Controller
 public class IndexController {
     @Autowired
@@ -35,10 +34,6 @@ public class IndexController {
 
     int pageNumber=1;
     int commend= Constants.YES;
-    int status=Constants.YES;
-    int page=(pageNumber -1) * Constants.defaultPageSize;
-    int size=Constants.defaultPageSize;
-
 
     @RequestMapping(value = {"/", "index"})// /或者 index都跳转到index
     public String index(Model model, HttpServletRequest request,@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception{

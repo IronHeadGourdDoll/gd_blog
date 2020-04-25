@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -65,19 +66,41 @@ public class BlogController {
         System.out.println("blog:"+blog);
         return "edit_article";
     }
-
-    //跳转到添加/编辑界面,@RequestBody主要用来接收前端传递给后端的json字符串中的数据的(请求体中的数据的)，根据key对应成实体
+    
+    /**
+    * @Description: 跳转到添加/编辑界面,@RequestBody主要用来接收前端传递给后端的json字符串中的数据的(请求体中的数据的)，根据key对应成实体
+    * @Param: [model, blog]
+    * @return: java.lang.String
+    * @Author: wuliang
+    * @Date: 2020/4/23 21:10
+    */
     @PostMapping("/save_or_update")
     @ResponseBody
-    public String saveOrUpdateBlog(Model model, @RequestBody Blog blog) {
+    public String saveOrUpdateBlog(@RequestBody Blog blog, RedirectAttributes attributes) {
         blogService.saveOrUpdateBlog(blog);
-        return "success";//?categoryName=blog.categoryName
+
+        //要在save后面，save过后blog也会改变
+        attributes.addFlashAttribute("blog",blog);
+        return "redirect:/saved_blog";
     }
 
-    //删除
+    /** 
+    * @Description: 
+    * @Param: [blog]
+    * @return: java.lang.String
+    * @Author: wuliang
+    * @Date: 2020/4/23 21:11
+    */ 
     @RequestMapping("/delete_blog")
     public String deleteBlog(Blog blog) {
         blogService.deleteBlog(blog);
         return "redirect:index";
+    }
+
+    //查看文章详情
+    @RequestMapping("/saved_blog")
+    public String getBlogById(Model model, @ModelAttribute("blog") Blog blog) {
+        model.addAttribute("blog",blog);
+        return "article_detail";
     }
 }

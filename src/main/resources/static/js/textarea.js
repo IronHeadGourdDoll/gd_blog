@@ -1,6 +1,7 @@
 tinymce.init({
     selector: '#message_textarea',
     mode : "textareas",
+    //language_url : '/js/tinymce/js/tinymce/langs/zh_CN.js',//可不写
     language:'zh_CN',
     directionality: 'ltr',//文字方向
     browser_spellcheck: true,

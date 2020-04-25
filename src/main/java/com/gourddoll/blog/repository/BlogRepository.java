@@ -15,7 +15,14 @@ public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificati
     Page<Blog> findAllByCommendAndStatus(int commend, int status, Pageable pageable);
 
     //*********************************根据username查找博客**********************************
-    Page<Blog> findAllByStatusAndAuthor(int status, Pageable pageable,String author);//通过作者查找所有博客
+    /**
+    * @Description: 通过作者查找所有博客
+    * @Param: [status, pageable, author]
+    * @return: org.springframework.data.domain.Page<com.gourddoll.blog.entity.Blog>
+    * @Author: wuliang
+    * @Date: 2020/4/23 21:04
+    */
+    Page<Blog> findAllByStatusAndAuthor(int status, Pageable pageable,String author);
     Page<Blog> findAllByCommendAndStatusAndAuthor(int commend,int status, Pageable pageable,String author);//通过作者查找推荐的所有博客
 
 

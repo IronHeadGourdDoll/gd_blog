@@ -324,10 +324,10 @@
         var tagNameList = [];
         var isCommend = $('input[name="commend"]:checked').val();
         var content = tinyMCE.activeEditor.getContent() ;
+        alert(content);
         if (blogId == 0) {
             blogId = null;
         }
-        alert(blogId);
         var tagListEle = document.getElementById("tagListUl").getElementsByTagName("li");
         for(var i=0;i<tagListEle.length;i++){
             tagNameList.push(tagListEle[i].innerHTML);
@@ -349,7 +349,7 @@
                 "content": content,
             }),
             success: function () {
-                alert("提交成功！");
+                alert(content);
             },
             error: function () {
                 alert("error");

@@ -1,6 +1,9 @@
 spring:
+  # 环境 dev:开发环境|test:测试环境|prod:生产环境
+  profiles:
+    active: dev #激活的配置文件，下面的不再生效
   datasource:
-    url: jdbc:mysql://localhost:3306/gd_blog?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://39.99.195.107:3306/gd_blog?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver

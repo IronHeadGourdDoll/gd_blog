@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Table(name="message")
 @Entity
@@ -26,7 +25,6 @@ public class Message implements Serializable {
     @Lob
     @Column(columnDefinition = "TEXT")
     public String content;
-    @Temporal(TemporalType.DATE)
-    public Date createTime;
+    public String createTime;
 
 }
