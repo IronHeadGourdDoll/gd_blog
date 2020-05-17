@@ -18,8 +18,7 @@ public class MessageServiceImpl implements MessageService {
     MessageRepository messageRepository;
     //通过创建时间数降序排列
     Pageable pageable;
-    TimeUtil timeUtil;
-    String nowTime= timeUtil.getTimestamp();
+    String nowTime= TimeUtil.getTimestamp();
 
     @Override
     public Page<Message> findMessageByUsername(String username, int start, int size) {

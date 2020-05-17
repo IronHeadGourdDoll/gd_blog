@@ -32,7 +32,6 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
 
-    int pageNumber=1;
     int commend= Constants.YES;
 
     @RequestMapping(value = {"/", "index"})// /或者 index都跳转到index

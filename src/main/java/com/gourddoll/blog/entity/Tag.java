@@ -9,7 +9,7 @@ import java.util.List;
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer tagId;
+    public Long id;
     public String tagName;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
@@ -20,12 +20,12 @@ public class Tag implements Serializable {
     )
     List<Blog> blogList;
 
-    public Integer getTagId() {
-        return tagId;
+    public Long getTagId() {
+        return id;
     }
 
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTagName() {

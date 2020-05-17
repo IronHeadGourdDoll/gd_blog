@@ -15,5 +15,14 @@ import java.io.Serializable;
 public class BlogVisitLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long visitId;
+    public Long id;
+    public String ipAddr;
+    public String location;
+    public String browser;
+    public String os;
+    public String requestUrl;
+    public String blogId;
+    public String visitTime;
+    public String visitorName;
+    public String username;
 }

@@ -121,7 +121,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog findBlogByBlogId(Long BlogId) {
+    public Blog findBlogById(Long id) {
         return null;
     }
 
@@ -169,13 +169,13 @@ public class BlogServiceImpl implements BlogService {
         //TimeUtil timeUtil=new TimeUtil();通过类成员访问静态属性？
         String nowTime= TimeUtil.getTimestamp();
         //为null则是添加，初始化创建时间，否则不初始化
-        if (blog.getBlogId()==null) {
+        if (blog.getId()==null) {
             blog.setStatus(1);
             blog.setCreateTime(nowTime);
             blog.setUpdateTime(nowTime);
         }else {
             blog.setUpdateTime(nowTime);
-            Blog olderBlog=blogRepository.findAllByBlogId(blog.getBlogId());
+            Blog olderBlog=blogRepository.findAllById(blog.getId());
             System.out.println(blog.content);
             //将前端传来的不为空参数(也即是要修改值)copy覆盖原始对象属性值，1覆盖2的对应字段
             UpdateUtil.copyNullProperties(blog,olderBlog);

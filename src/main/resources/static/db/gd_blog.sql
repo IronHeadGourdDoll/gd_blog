@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Mine
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 50727
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 25/04/2020 21:22:53
+ Date: 17/05/2020 16:33:33
 */
 
 SET NAMES utf8mb4;
@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog`  (
-  `blog_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `author` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `summary` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '博客简介',
@@ -38,8 +38,8 @@ CREATE TABLE `blog`  (
   `disliked_times` int(11) NULL DEFAULT 0,
   `comment_times` int(11) NULL DEFAULT 0,
   `grade` int(11) NULL DEFAULT 0,
-  PRIMARY KEY (`blog_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客表' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog
@@ -77,13 +77,13 @@ INSERT INTO `blog_catagory` VALUES (1, 5);
 -- ----------------------------
 DROP TABLE IF EXISTS `blog_comment`;
 CREATE TABLE `blog_comment`  (
-  `comment_id` int(11) NOT NULL COMMENT '每一条评论都有一个id，其他都是回复blog_comment_id',
+  `id` int(11) NOT NULL COMMENT '每一条评论都有一个id，其他都是回复blog_comment_id',
   `blog_id` int(11) NOT NULL COMMENT '评论的博客',
-  `comment_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `comment_parent` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0直接评论blog_id的，其他都是',
-  `comment_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `parent` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0直接评论blog_id的，其他都是',
+  `create_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
   `commentator` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是谁评论的',
-  PRIMARY KEY (`comment_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -100,7 +100,7 @@ CREATE TABLE `blog_comment_liked`  (
   `comment_id` int(11) NOT NULL,
   `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '对评论 点赞或点踩 的人',
   `status` int(2) NOT NULL COMMENT '0代表踩，1代表赞',
-  `liked_time` timestamp(6) NOT NULL,
+  `create_time` timestamp(6) NOT NULL,
   PRIMARY KEY (`comment_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客评论点赞表' ROW_FORMAT = Dynamic;
 
@@ -132,11 +132,7 @@ INSERT INTO `blog_liked` VALUES (1, 'test1', 1, NULL);
 DROP TABLE IF EXISTS `blog_tag`;
 CREATE TABLE `blog_tag`  (
   `tag_id` int(11) NOT NULL,
-  `blog_id` int(11) NOT NULL,
-  INDEX `FKd0y9mfvb4wsvn1yi3a9jhsase`(`blog_id`) USING BTREE,
-  INDEX `FKt7qwebglmm62nfymnl5xwpbws`(`tag_id`) USING BTREE,
-  CONSTRAINT `FKd0y9mfvb4wsvn1yi3a9jhsase` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`blog_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FKt7qwebglmm62nfymnl5xwpbws` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  `blog_id` int(11) NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客标签表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -149,35 +145,23 @@ INSERT INTO `blog_tag` VALUES (4, 5);
 INSERT INTO `blog_tag` VALUES (5, 1);
 INSERT INTO `blog_tag` VALUES (8, 5);
 INSERT INTO `blog_tag` VALUES (2, 6);
-INSERT INTO `blog_tag` VALUES (3, 6);
-INSERT INTO `blog_tag` VALUES (8, 6);
-INSERT INTO `blog_tag` VALUES (9, 6);
-INSERT INTO `blog_tag` VALUES (5, 7);
-INSERT INTO `blog_tag` VALUES (6, 7);
-INSERT INTO `blog_tag` VALUES (8, 7);
-INSERT INTO `blog_tag` VALUES (2, 8);
-INSERT INTO `blog_tag` VALUES (6, 8);
-INSERT INTO `blog_tag` VALUES (9, 8);
-INSERT INTO `blog_tag` VALUES (12, 8);
-INSERT INTO `blog_tag` VALUES (5, 14);
-INSERT INTO `blog_tag` VALUES (6, 14);
-INSERT INTO `blog_tag` VALUES (7, 14);
 
 -- ----------------------------
 -- Table structure for blog_visit_log
 -- ----------------------------
 DROP TABLE IF EXISTS `blog_visit_log`;
 CREATE TABLE `blog_visit_log`  (
-  `visit_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `ip_addr` int(11) NULL DEFAULT NULL,
   `location` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `browser` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `os` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `request_url` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `title` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访问标题',
+  `blog_id` int(11) NULL DEFAULT NULL COMMENT '访问标题',
   `visit_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-  `visitor` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访客',
-  PRIMARY KEY (`visit_id`) USING BTREE
+  `visitor_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访客',
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '被访问的用户名',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客浏览记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -185,14 +169,34 @@ CREATE TABLE `blog_visit_log`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for bolgger_visit_log
+-- ----------------------------
+DROP TABLE IF EXISTS `bolgger_visit_log`;
+CREATE TABLE `bolgger_visit_log`  (
+  `id` int(11) NOT NULL,
+  `ip_addr` int(11) NULL DEFAULT NULL,
+  `location` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `browser` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `os` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `visit_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `visitor_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访客',
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '被访问的用户名',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博主浏览记录表=》求和-网站浏览记录表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bolgger_visit_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
-  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`category_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -223,15 +227,59 @@ INSERT INTO `followee` VALUES (1, 2);
 INSERT INTO `followee` VALUES (3, 1);
 
 -- ----------------------------
+-- Table structure for link
+-- ----------------------------
+DROP TABLE IF EXISTS `link`;
+CREATE TABLE `link`  (
+  `id` int(11) NOT NULL,
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `linked_username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `summary` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` int(11) NULL DEFAULT NULL COMMENT '1表示审核通过,0表示未审核',
+  `weight` int(11) NULL DEFAULT NULL,
+  `display` int(11) NULL DEFAULT NULL,
+  `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of link
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `login_log`;
+CREATE TABLE `login_log`  (
+  `id` int(11) NOT NULL,
+  `ip_addr` int(11) NULL DEFAULT NULL,
+  `location` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `browser` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `os` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `request_url` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `blog_id` int(11) NULL DEFAULT NULL COMMENT '访问标题',
+  `login_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '被访问的用户名',
+  `exit_time` timestamp(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of login_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for medal
 -- ----------------------------
 DROP TABLE IF EXISTS `medal`;
 CREATE TABLE `medal`  (
-  `medal_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `medal_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `medal_img` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '勋章图片',
+  `img` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '勋章图片',
   `description` varchar(65) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '勋章描述',
-  PRIMARY KEY (`medal_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '徽章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -248,9 +296,9 @@ INSERT INTO `medal` VALUES (5, '博客专家', 'img', '博客等级达到6级以
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu`  (
-  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`menu_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -262,13 +310,13 @@ CREATE TABLE `menu`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message`  (
-  `message_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '博主',
-  `message_parent` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0代表留的言，1代表留言的 留言，按时间降序',
+  `parent` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0代表留的言，1代表留言的 留言，按时间降序',
   `message_people` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '留言者的用户名',
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`message_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -281,15 +329,40 @@ INSERT INTO `message` VALUES (4, 'wuliang', '0', 'test1', '哈哈哈哈哈哈哈
 INSERT INTO `message` VALUES (5, 'zhangsan', '0', 'wuliang', '是的快捷方式的空间', '2020-04-09 18:37:54');
 
 -- ----------------------------
+-- Table structure for operate_log
+-- ----------------------------
+DROP TABLE IF EXISTS `operate_log`;
+CREATE TABLE `operate_log`  (
+  `id` int(11) NOT NULL,
+  `ip_addr` int(11) NULL DEFAULT NULL,
+  `location` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `browser` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `os` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `request_method` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方式（get/post/put/）',
+  `request_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `param` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求参数',
+  `blog_id` int(11) NULL DEFAULT NULL COMMENT '被操作博客的id',
+  `operate_time` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作者的用户名',
+  `business_type` int(3) NULL DEFAULT NULL COMMENT '业务类型（0其它 1新增 2修改 3删除）',
+  `json_result` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '返回数据',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志，增删查改都会记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of operate_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `role_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `is_enable` int(1) NULL DEFAULT NULL,
   `role_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`role_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -308,11 +381,7 @@ INSERT INTO `role` VALUES (6, 1, 'ROLE_SUPERADMIN', NULL);
 DROP TABLE IF EXISTS `role_menu`;
 CREATE TABLE `role_menu`  (
   `role_id` int(11) NOT NULL,
-  `menu_id` int(11) NOT NULL,
-  INDEX `FKfg4e2mb2318tph615gh44ll3`(`menu_id`) USING BTREE,
-  INDEX `FKqyvxw2gg2qk0wld3bqfcb58vq`(`role_id`) USING BTREE,
-  CONSTRAINT `FKfg4e2mb2318tph615gh44ll3` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FKqyvxw2gg2qk0wld3bqfcb58vq` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  `menu_id` int(11) NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -324,9 +393,9 @@ CREATE TABLE `role_menu`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag`  (
-  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag_name` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`tag_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -350,10 +419,10 @@ INSERT INTO `tag` VALUES (12, 'Spring');
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录用户名',
-  `nickname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
-  `pwd` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `nickname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
+  `pwd` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `sex` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '1=\'男\'，0=\'女\'',
   `birth` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   `address` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -374,7 +443,7 @@ CREATE TABLE `user`  (
   `liked_times` int(11) NULL DEFAULT NULL,
   `pageviews` int(11) NULL DEFAULT NULL,
   `visitors` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户的一些基本信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -409,34 +478,29 @@ INSERT INTO `user_medal` VALUES ('1', 5);
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role`  (
   `role_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `username` bigint(20) NOT NULL,
-  INDEX `FKa68196081fvovjhkek5m97n3y`(`role_id`) USING BTREE,
-  INDEX `FK859n2jvi8ivhui0rl0esws6o`(`user_id`) USING BTREE,
-  CONSTRAINT `FK859n2jvi8ivhui0rl0esws6o` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FKa68196081fvovjhkek5m97n3y` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  `username` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
-INSERT INTO `user_role` VALUES (1, 1, 0);
-INSERT INTO `user_role` VALUES (5, 3, 0);
-INSERT INTO `user_role` VALUES (6, 2, 0);
+INSERT INTO `user_role` VALUES (1, 'wuliang');
+INSERT INTO `user_role` VALUES (5, 'zhangsan');
+INSERT INTO `user_role` VALUES (6, 'test1');
 
 -- ----------------------------
 -- Table structure for website_config
 -- ----------------------------
 DROP TABLE IF EXISTS `website_config`;
 CREATE TABLE `website_config`  (
-  `config_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `author_name` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `blog_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `domain_name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `record_number` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备案号',
   `theme` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'delicate' COMMENT '网站风格',
-  PRIMARY KEY (`config_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

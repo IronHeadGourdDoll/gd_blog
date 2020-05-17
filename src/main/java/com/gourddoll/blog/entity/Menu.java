@@ -18,7 +18,7 @@ public class Menu implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long menuId;
+    public Long id;
     public String menuName;
 
     @ManyToMany(fetch = FetchType.EAGER)

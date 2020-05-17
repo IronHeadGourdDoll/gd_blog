@@ -27,7 +27,7 @@ public interface BlogService {
     Page<Blog> findCommendBlogListByUsername(int commend, int start ,int size,String username);
 
 
-    Blog findBlogByBlogId(Long BlogId);//通过id查找博客
+    Blog findBlogById(Long BlogId);//通过id查找博客
 
 
     Page<Blog> findBlogByUsernameAndCategoryName(String username, String categoryName, int start, int size);

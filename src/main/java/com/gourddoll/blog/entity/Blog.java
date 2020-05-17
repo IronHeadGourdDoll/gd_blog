@@ -15,11 +15,9 @@ import java.util.List;
 @DynamicUpdate
 @Data
 public class Blog implements Serializable {
-    private static final long serialVersionUID = 4967006908141911451L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//这样的话，save(xxx)后xxx就已经更新为已经保存的实体了,添加的xxx就有id了
-    public Long blogId;
+    public Long id;
     public String title;
     public String author;
     public String summary;
@@ -41,7 +39,7 @@ public class Blog implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})//急加载，级联删除
     @JoinTable(
             name = "blog_tag",//连接表
-            joinColumns = {@JoinColumn(name = "blog_id")},//所有方，通过name连接，表字段
+            joinColumns = {@JoinColumn(name = "blog_id")},//（blog_id是连接表的，blog表是id）所有方，通过name连接，表字段
             inverseJoinColumns = {@JoinColumn(name = "tag_id")}//非所有方，把name加进来成为list，再根据此tag_id查找tag_name
     )
     public List<Tag> tagList;//????为什么是taglist,一直为null，生成一张中间表

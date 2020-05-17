@@ -16,7 +16,8 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long userId;
+    @Column(name = "id")
+    public Long id;
     public String username;
     public String nickname;
     public String pwd;
@@ -42,7 +43,16 @@ public class User implements Serializable {
     public int commendTimes;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "username")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
     private List<Role> roleList;
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "user_medal",
+//            joinColumns = {@JoinColumn(name = "username")},
+//            inverseJoinColumns = {@JoinColumn(name = "medal_id",referencedColumnName = "id")}
+//            )
+//    private List<Medal> medalList;
 }

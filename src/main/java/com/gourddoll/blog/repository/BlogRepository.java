@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 //所有排序在impl层手动调整
 public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificationExecutor<Blog> {
 
-    Blog findAllByBlogId(Long blogId);//通过id查找博客
+    Blog findAllById(Long id);//通过id查找博客
 
     //*****************************查找所有博客*******************************
     Page<Blog> findAllByStatus(int status, Pageable pageable);

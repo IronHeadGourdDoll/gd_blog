@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Table(name="blog_liked")
@@ -15,11 +13,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BlogLiked implements Serializable {
-
-    private static final long serialVersionUID = 4967004621141911451L;
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long blogId;
-    @Id
     public String username;
+    public Long status;
+    public String createtime;
+
 }

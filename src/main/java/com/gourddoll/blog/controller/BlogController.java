@@ -60,7 +60,7 @@ public class BlogController {
         if (blog!=null){
 
         }else{
-            blog.setBlogId(0L);
+            blog.setId(0L);
         }
         model.addAttribute("blog",blog);
         System.out.println("blog:"+blog);

@@ -20,8 +20,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findTagByTagId(int tagId) {
-        return tagRepository.findByTagId(tagId);
+    public Tag findTagById(Long id) {
+        return tagRepository.findAllById(id);
     }
 
     @Override

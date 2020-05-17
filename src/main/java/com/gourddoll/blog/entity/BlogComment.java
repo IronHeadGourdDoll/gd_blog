@@ -20,5 +20,12 @@ import java.io.Serializable;
 public class BlogComment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long commentId;
+    public Long id;
+    public Long blogId;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    public String content;
+    public Long parent;
+    public String commentTime;
+    public String commentator;
 }
