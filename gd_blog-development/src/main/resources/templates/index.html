@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/common_head::commonHeader"></head>
+<link rel="stylesheet" th:href="@{/css/index.css}" type="text/css">
+<title>首页</title>
+<body style="background-color: #5bc0de">
+    <!--  语法说明  "::"前面是模板文件名，后面是选择器 -->
+    <div th:include="common/common_navigation :: commonNavigation"></div>
+    <div class="container">
+        <div class="row" id="content">
+            <div class="col-md-3" id="left_nav">
+                <div class="row" id="card">
+                    <!--head portrait-->
+                    <div class="row" id="head_portrait">
+                        <div class="col-md-4 col-sm-4">
+                            <img th:src="@{/img/p1.png}" style="width:30px; height:30px;float: left;">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <a th:text="${session.user.username}"></a>
+                            <p>进入他的主页</p>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <button id="chat">私信</button>
+                            <button id="followee">关注</button>
+                        </div>
+                    </div>
+
+
+                    <!--user statistic-->
+                    <div class="row" id="user statistic">
+                        <div class="col-md-4 col-sm-2">
+                            <div>文章</div>
+                            <div th:text="${session.user.blogNum}"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-2">
+                            <div>关注</div>
+                            <div th:text="${session.user.followers}"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-2">
+                            <div>粉丝</div>
+                            <div th:text="${session.user.fans}"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-2">
+                            <div>获赞</div>
+                            <div th:text="${session.user.likedTimes}"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-2">
+                            <div>评论</div>
+                            <div th:text="${session.user.commendTimes}"></div>
+                        </div>
+                        <div class="col-md-4 col-sm-2">
+                            <div>访问</div>
+                            <div th:text="${session.user.pageviews}"></div>
+                        </div>
+                    </div>
+
+                    <!--user rank-->
+                    <div class="row" id="user_rank">
+                        <div class="col-md-6">
+                            <div>等级:6</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>周排名:1630</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div>积分:300</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>总排名:800</div>
+                        </div>
+
+                        <div  class="col-md-12">
+                            勋章:<img th:src="@{/img/p1.png}" style="width:24px; height:24px;">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" id="blog_rank">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#read_times" aria-controls="home" role="tab" data-toggle="tab">阅读排行</a></li>
+                        <li role="presentation"><a href="#recent" aria-controls="profile" role="tab" data-toggle="tab">最新发布</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="read_times">
+                            <ul>
+                                <li class="readTop_art_item" th:each="rbg,iterStat : ${readTopBlogList}">
+                                    <p th:text="${rbg.title}"></p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Tab panes -->
+                        <div role="tabpanel" class="tab-pane" id="recent">
+                            <ul>
+                                <li class="readTop_art_item" th:each="nbg,iterStat : ${newestBlogList}"><!--,${#numbers.sequence(1,10)}-->
+                                    <p th:text="${nbg.title}"></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="tag_cloud">
+                    <h5 class="index-title">标签云  Tag Cloud</h5>
+                    <ul>
+                        <li th:each="tagi,iterStat : ${session.tagList}">
+                            <p th:text="${tagi.tagName}"></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row" id="friend_links">
+                    <h5 class="index-title">友情连接  Friend Links</h5>
+                    <ul>
+                        <li>大老杨</li>
+                        <li>边小丰</li>
+                        <li>陈豪</li>
+                        <li>Turing</li>
+                    </ul>
+                </div>
+
+            </div>
+            <!--右侧-->
+            <div class="col-md-9">
+                <!--banner-->
+                <div id="carousel-example-generic" class="carousel slide row" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img class="img-responsive center-block" th:src="@{/img/ban1.png}" alt="这是第一张图片">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive center-block" th:src="@{/img/ban2.png}" alt="这是第二张图片">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive center-block" th:src="@{/img/ban3.png}" alt="这是第三张图片">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive center-block" th:src="@{/img/ban4.png}" alt="这是第四张图片">
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+                <!--commend_art_list-->
+                <div class="" id="commend_art_list">
+                    <h5 class="row">推荐文章</h5>
+                    <ul class="row">
+                        <li class="commend_art_item row" th:each="cbg,iterStat : ${commendBlogPage}" style="margin-top:15px; ">
+                            <div class="artimg col-md-3" style="width: 20%;float: left;">
+                                <img th:src="@{/img/p1.png}" alt="..." style="width: 100%;">
+                            </div>
+                            <div class="summary col-md-9" style="width: 80%;">
+                                <div class="row">
+                                    <div th:text="${cbg.title}" style="float: left;"></div>
+                                    <!--设置菜单栏-->
+                                    <div class="dropdown" style="float: right;">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            设置
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a th:href="${'/blog_detail?blog='+cbg}">查看</a></li>
+                                            <li th:if="${session.visitor.username eq session.user.username}"><a th:href="${'/save_or_update_page?blog='+cbg}">编辑</a></li>
+                                            <li th:if="${session.visitor.username eq session.user.username}"><a th:href="${'/delete_blog?blog='+cbg}">删除</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p th:text="${cbg.summary}"></p>
+                                    <ul class="blog_stas">
+                                        <li>发布日期：<p th:text="${cbg.createTime}"></p></li>
+                                        <li>作者：<p th:text="${cbg.author}"></p></li>
+                                        <li>阅读量：<p th:text="${cbg.readTimes}"></p></li>
+                                        <li>点赞量：<p th:text="${cbg.likedTimes}"></p></li>
+                                        <li style="float: right">分类：<p th:text="${cbg.categoryName}"></p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 分页操作栏 -->
+                <div class="" style="">
+
+                    <!--文字信息-->
+                    <div class="row">
+                        <span class="">
+                            当前第 [[${commendBlogPage.getNumber()+1}]] 页.总共[[${commendBlogPage.totalPages}]]页.一共 [[${commendBlogPage.totalElements}]]条记录
+                        </span>
+                    </div>
+                    <!--点击分页-->
+                    <div class="row">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" style="margin: 0 auto;">
+                                <!--首页-->
+                                <li><a th:href="@{'/index?start=0'}">首页</a></li>
+
+                                <!--上一页-->
+                                <li th:if="${commendBlogPage.hasPrevious()}"><a th:href="@{'/index?start='+${commendBlogPage.number-1}}" aria-label="Previous"><span aria-hidden="true">上一页</span></a></li>
+                                <li th:unless="${commendBlogPage.hasPrevious()}"><a th:href="@{'/index?start=0'}" aria-label="Previous"><span aria-hidden="true">上一页</span></a></li>
+
+                                <!--循环遍历连续显示的页面，若是当前页就高亮显示，并且没有链接-->
+
+                                <!--下一页-->
+                                <li th:if="${commendBlogPage.hasNext()}"><a th:href="@{'/index?start='+${commendBlogPage.number+1}}" aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+                                <li th:unless="${commendBlogPage.hasNext()}"><a th:href="@{'/index?start='+${commendBlogPage.totalPages-1}}" aria-label="Next"><span aria-hidden="true">下一页</span></a></li>
+                                <!--尾页-->
+                                <li><a th:href="@{'/index?start='+${commendBlogPage.totalPages-1}}">尾页</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:include="common/common_footer :: commonFooter"></div>
+</body>
+<script th:inline="javascript">
+
+</script>
+</html>

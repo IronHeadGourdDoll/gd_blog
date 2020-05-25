@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/common_head::commonHeader">
+    <title>分类</title>
+</head>
+<script type="text/javascript">
+    $(function() {
+        var converter = new showdown.Converter(),
+            text = document.getElementById('blog_content').innerText,
+            html = converter.makeHtml(text);
+        document.getElementById('blog_content').innerHTML = html;
+    });
+</script>
+<body>
+
+    <div th:include="common/common_navigation :: commonNavigation"></div>
+    <div class="container pt">
+        <div class="row mt centered">
+            <div class="col-lg-12">
+                <h5>当前位置：分类/[[${categoryName}]]/[[${blog.title}]]</h5>
+                <h3 th:text="${blog.title}" style="text-align: center;"></h3>
+                <div class="container-fluid">
+                    <ul class="blog_stas">
+                        <li>发布日期：<p th:text="${blog.createTime}"></p></li>
+                        <li>作者：<p th:text="${blog.author}"></p></li>
+                        <li>阅读量：<p th:text="${blog.readTimes}"></p></li>
+                        <li>点赞量：<p th:text="${blog.likedTimes}"></p></li>
+                        <li style="">分类：<p th:text="${blog.categoryName}"></p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3" id="mulu" style="">
+                目录
+            </div>
+            <div class="col-lg-9">
+                    <div id="blog_content">[[${blog.content}]]</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+    <div th:include="common/common_footer :: commonFooter"></div>
+</body>
+</html>

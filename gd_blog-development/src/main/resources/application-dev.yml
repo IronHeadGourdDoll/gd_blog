@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/gd_blog?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: "000000"
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 134.175.54.216
+  jpa:
+    hibernate:
+    #更新或者创建数据表结构
+    #ddl-auto: update
+    ddl-auto: none
+    #控制台显示SQL
+    show-sql: false
+    #使创建Unique最大能超过1000字符
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #防止failed to lazily initialize a collection of XXXX
+  thymeleaf:
+    prefix: classpath:/templates/
+    mode: HTML
+    cache: false
+    encoding: UTF-8
+    #     新版本不支持content-type: text/html，故新写法
+    servlet:
+      content-type: text/html
