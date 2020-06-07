@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gourddoll.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!-- 自定义结果映射 -->
+    <resultMap id="BaseResultMap" type="com.gourddoll.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="pwd" property="pwd" />
+        <result column="sex" property="sex" />
+        <result column="birth" property="birth" />
+        <result column="address" property="address" />
+        <result column="education" property="education" />
+        <result column="career" property="career" />
+        <result column="self_introduction" property="selfIntroduction" />
+        <result column="dream" property="dream" />
+        <result column="technology" property="technology" />
+        <result column="project" property="project" />
+        <result column="hobby" property="hobby" />
+        <result column="join_date" property="joinDate" />
+        <result column="blog_num" property="blogNum" />
+        <result column="commend_times" property="commendTimes" />
+        <result column="disliked_times" property="dislikedTimes" />
+        <result column="fans" property="fans" />
+        <result column="followers" property="followers" />
+        <result column="grade" property="grade" />
+        <result column="liked_times" property="likedTimes" />
+        <result column="pageviews" property="pageviews" />
+        <result column="visitors" property="visitors" />
+    </resultMap>
+    <!-- 自定义结果映射，mybatis方式实现-->
+    <resultMap id="CustomResultMap" type="com.gourddoll.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="pwd" property="pwd" />
+        <result column="sex" property="sex" />
+        <result column="birth" property="birth" />
+        <result column="address" property="address" />
+        <result column="education" property="education" />
+        <result column="career" property="career" />
+        <result column="self_introduction" property="selfIntroduction" />
+        <result column="dream" property="dream" />
+        <result column="technology" property="technology" />
+        <result column="project" property="project" />
+        <result column="hobby" property="hobby" />
+        <result column="join_date" property="joinDate" />
+        <result column="blog_num" property="blogNum" />
+        <result column="commend_times" property="commendTimes" />
+        <result column="disliked_times" property="dislikedTimes" />
+        <result column="fans" property="fans" />
+        <result column="followers" property="followers" />
+        <result column="grade" property="grade" />
+        <result column="liked_times" property="likedTimes" />
+        <result column="pageviews" property="pageviews" />
+        <result column="visitors" property="visitors" />
+        <!-- 多表关联映射，实体类扩展-->
+        <collection property="roles" ofType="com.gourddoll.entity.Role">
+            <id column="r_id" property="id" />
+            <result column="is_enable" property="isEnable" />
+            <result column="role_name" property="roleName" />
+            <result column="description" property="description" />
+        </collection>
+    </resultMap>
+
+    <!--根据username查roles*************ManyToMany**************** -->
+    <select id="findAll" resultType="com.gourddoll.entity.Role" resultMap="CustomResultMap">
+            SELECT u.*,r.id r_id,r.is_enable,r.role_name,r.description
+            FROM user u
+                  LEFT OUTER JOIN user_role ur on ur.username=u.username
+                  LEFT OUTER JOIN role r on ur.role_id = r.id
+    </select>
+
+    <select id="findByUsername" resultType="com.gourddoll.entity.User" resultMap="CustomResultMap">
+        SELECT u.*,r.id r_id,r.is_enable,r.role_name,r.description
+        FROM user u
+              LEFT OUTER JOIN user_role ur on ur.username=u.username
+              LEFT OUTER JOIN role r on ur.role_id = r.id
+        where username=#{username}
+    </select>
+
+</mapper>

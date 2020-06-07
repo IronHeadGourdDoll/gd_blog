@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gourddoll.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gourddoll.entity.Role">
+        <id column="id" property="id" />
+        <result column="is_enable" property="isEnable" />
+        <result column="role_name" property="roleName" />
+        <result column="description" property="description" />
+    </resultMap>
+    <!-- 自定义结果映射，mybatis方式实现-->
+    <resultMap id="CustomResultMap" type="com.gourddoll.entity.Role">
+        <id column="id" property="id" />
+        <result column="is_enable" property="isEnable" />
+        <result column="role_name" property="roleName" />
+        <result column="description" property="description" />
+        <!-- 多表关联映射，实体类扩展-->
+        <collection property="menus" ofType="com.gourddoll.entity.Menu">
+            <id column="m_id" property="id" />
+            <result column="menu_name" property="menuName" />
+        </collection>
+    </resultMap>
+    <!--根据role_id查menus-->
+    <select id="findAll" resultType="com.gourddoll.entity.User">
+        select r.*,m.id m_id,m.menu_name
+         from role r,role_menu rm,menu m
+            where rm.role_id=r.id
+            and rm.menu_id=m.id
+    </select>
+
+
+</mapper>

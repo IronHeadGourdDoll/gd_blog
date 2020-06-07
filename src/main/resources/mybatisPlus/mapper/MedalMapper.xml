@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gourddoll.mapper.MedalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gourddoll.entity.Medal">
+        <id column="id" property="id" />
+        <result column="medal_name" property="medalName" />
+        <result column="img" property="img" />
+        <result column="description" property="description" />
+    </resultMap>
+
+</mapper>

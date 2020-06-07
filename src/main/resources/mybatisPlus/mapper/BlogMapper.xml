@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gourddoll.mapper.BlogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.gourddoll.entity.Blog">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="summary" property="summary" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="commend" property="commend" />
+        <result column="status" property="status" />
+        <result column="header_img" property="headerImg" />
+        <result column="category_name" property="categoryName" />
+        <result column="read_times" property="readTimes" />
+        <result column="liked_times" property="likedTimes" />
+        <result column="disliked_times" property="dislikedTimes" />
+        <result column="comment_times" property="commentTimes" />
+        <result column="grade" property="grade" />
+    </resultMap>
+
+    <!-- 自定义结果映射，mybatis方式实现-->
+    <resultMap id="CustomResultMap" type="com.gourddoll.entity.Blog">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="summary" property="summary" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="commend" property="commend" />
+        <result column="status" property="status" />
+        <result column="header_img" property="headerImg" />
+        <result column="category_name" property="categoryName" />
+        <result column="read_times" property="readTimes" />
+        <result column="liked_times" property="likedTimes" />
+        <result column="disliked_times" property="dislikedTimes" />
+        <result column="comment_times" property="commentTimes" />
+        <result column="grade" property="grade" />
+        <!-- 多表关联映射，实体类扩展-->
+        <collection property="tags" ofType="com.gourddoll.entity.Tag">
+            <id column="t_id" property="id" />
+            <result column="tag_name" property="tagName" />
+        </collection>
+    </resultMap>
+
+
+    <!--**********************************************查询所有*****************************************************-->
+    <!--把tag存成list-->
+    <select id="findAll" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+    </select>
+
+    <select id="findByBlogId" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where b.id=#{blogId}
+    </select>
+
+    <select id="findByTagId" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where bt.tag_id=#{tagId}
+    </select>
+
+    <select id="findByCategoryId" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where b.category_name=(select category_name from category where id=#{categoryId})
+    </select>
+
+
+
+    <!--**********************************************根据用户名查询*****************************************************-->
+    <select id="findByUsername" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where b.author=#{username}
+    </select>
+
+    <select id="findByUsernameAndTagId" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where   b.author=#{username}
+            and bt.tag_id=#{tagId}
+    </select>
+
+    <select id="findByUsernameAndCategoryId" resultType="com.gourddoll.entity.Blog">
+        SELECT b.*,t.id t_id,t.tag_name
+        FROM blog b
+              LEFT OUTER JOIN blog_tag bt on bt.blog_id=b.id
+              LEFT OUTER JOIN tag t on bt.tag_id=t.id
+        where   b.author=#{username}
+            and b.category_name=(select category_name from category where id=#{categoryId})
+    </select>
+
+
+</mapper>
