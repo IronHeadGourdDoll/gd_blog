@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonHeader">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Gourd Doll的博客</title>
+    <!--CSS-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/page.css}" type="text/css">
+
+    <!--JS-->
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/jquery.validate.min.js}"></script>
+    <script th:src="@{/js/showdown.js}"></script>
+<!--    <script th:src="@{https://cdn.tiny.cloud/1/9esajg147k0rm9dyj9qy0b1ko5wjf6wdom9hveo6i86zo4s4/tinymce/5/tinymce.min.js}" referrerpolicy="origin"></script>-->
+    <script th:src="@{/js/tinymce/js/tinymce/tinymce.min.js}"  referrerpolicy="origin"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="@{/js/page.js}"></script>
+    <script th:src="@{/js/messages_zh.js}"></script>
+    <script th:src="@{/js/textarea.js}"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/html5shiv.js}"></script>
+    <script th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+</head>
+</html>
