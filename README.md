@@ -16,5 +16,5 @@ SpringBoot，JPA，MySQL，druid，Spring Security，Redis，Elasticsearch（高
 
 ```markdown
 1.run Application
-2.浏览器输入localhost:8989
+2.浏览器输入 localhost:8989
 ```
